@@ -62,7 +62,9 @@ class QuestionController extends Controller
      */
     public function show(Question $question)
     {
-        // Nanti kita akan load jawaban di sini. Untuk sekarang, ini cukup.
+        // Muat relasi 'answers' dan 'user' di dalam 'answers'
+        $question->load('answers.user');
+
         return view('questions.show', compact('question'));
     }
 
@@ -71,7 +73,7 @@ class QuestionController extends Controller
      */
     public function edit(Question $question)
     {
-        // Otorisasi: Pastikan hanya pemilik yg bisa edit 
+        // Memastikan hanya pemilik yg bisa edit pertanyaan
         if (Auth::id() !== $question->user_id) {
             abort(403, 'ANDA TIDAK PUNYA HAK AKSES');
         }
@@ -83,7 +85,7 @@ class QuestionController extends Controller
      */
     public function update(Request $request, Question $question)
     {
-        // Otorisasi: Pastikan hanya pemilik yg bisa update 
+        // Memastikan hanya pemilik yg bisa update pertanyaan
         if (Auth::id() !== $question->user_id) {
             abort(403, 'ANDA TIDAK PUNYA HAK AKSES');
         }
