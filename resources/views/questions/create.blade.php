@@ -27,6 +27,13 @@
                             <label for="body" class="block font-medium text-sm text-gray-700">Isi Pertanyaan</label>
                             <textarea id="body" name="body" rows="5" class="block mt-1 w-full rounded-md shadow-sm border-gray-300">{{ old('body') }}</textarea>
                         </div>
+
+                        <div class="mt-4">
+                            <label for="tags" class="block font-medium text-sm text-gray-700">Tags (Pisahkan dengan koma)</label>
+                            <input id="tags" class="block mt-1 w-full rounded-md shadow-sm border-gray-300" type="text" name="tags" value="{{ old('tags') }}" />
+                            <x-input-error class="mt-2" :messages="$errors->get('tags')" />
+                        </div>
+                        
                         <div class="mt-4">
                             <label for="image" class="block font-medium text-sm text-gray-700">Gambar (Opsional)</label>
                             <input id="image" class="block mt-1 w-full" type="file" name="image" />

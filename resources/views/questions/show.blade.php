@@ -8,25 +8,18 @@
                 <div class="p-6 text-gray-900">
                     <div class="mb-6">
                         <div class="text-sm text-gray-600 mb-2">
-                            Ditanyakan oleh: **{{ $question->user->name }}** |
+                            Ditanyakan oleh: ... |
                             Kategori: **{{ $question->category->name }}** |
-                            Pada: {{ $question->created_at->format('d M Y, H:i') }}
+                            Pada: ...
                         </div>
 
-                        @if ($question->user_id == Auth::id())
-                        <div class="flex items-center space-x-4 my-4">
-                            <a href="{{ route('questions.edit', $question->id) }}" class="inline-flex items-center px-4 py-2 bg-yellow-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-600">
-                                Edit
-                            </a>
-                            <form class="inline-block form-delete" action="{{ route('questions.destroy', $question->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700">
-                                    Hapus
-                                </button>
-                            </form>
+                        <div class="flex flex-wrap gap-2 my-2">
+                            @foreach ($question->tags as $tag)
+                            <span class="px-2 py-1 bg-gray-200 text-gray-700 rounded-full text-xs">
+                                {{ $tag->name }}
+                            </span>
+                            @endforeach
                         </div>
-                        @endif
 
                         @if ($question->image)
                         <div class="my-4">

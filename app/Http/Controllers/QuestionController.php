@@ -38,6 +38,7 @@ class QuestionController extends Controller
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
             'body' => 'required|string',
+            'tags' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -47,13 +48,18 @@ class QuestionController extends Controller
             $imagePath = $request->file('image')->store('images/questions', 'public');
         }
 
-        Question::create([
+        $question = Question::create([
             'title' => $validated['title'],
             'category_id' => $validated['category_id'],
             'body' => $validated['body'],
             'image' => $imagePath,
-            'user_id' => Auth::id(), // Ambil ID user yang login
+            'user_id' => Auth::id(),
         ]);
+
+        if ($request->filled('tags')) {
+            // 'explode' memecah string "tag1,tag2" menjadi array ['tag1', 'tag2']
+            $question->attachTags(explode(',', $request->tags));
+        }
 
         return redirect()->route('questions.index')->with('success', 'Pertanyaan berhasil dipublikasikan!');
     }
@@ -114,6 +120,14 @@ class QuestionController extends Controller
             'body' => $validated['body'],
             'image' => $imagePath,
         ]);
+        
+        if ($request->filled('tags')) {
+            // 'syncTags' akan otomatis menambah/menghapus tag yg berubah
+            $question->syncTags(explode(',', $request->tags));
+        } else {
+            // Jika input tags dikosongkan, hapus semua tag
+            $question->detachTags($question->tags);
+        }
 
         return redirect()->route('questions.show', $question->id)->with('success', 'Pertanyaan berhasil diupdate!');
     }
