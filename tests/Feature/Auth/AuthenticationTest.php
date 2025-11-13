@@ -51,4 +51,42 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
         $response->assertRedirect('/');
     }
+
+    /**
+     * Tes untuk memastikan user bisa login dengan kredensial yang benar.
+     */
+    public function test_user_can_login_with_correct_credentials(): void
+    {
+        $user = User::factory()->create([
+            'password' => bcrypt('password123')
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password123',
+        ]);
+
+        $this->assertAuthenticatedAs($user);
+
+        $response->assertRedirect('/dashboard');
+    }
+
+    /**
+     * Tes untuk memastikan user GAGAL login dengan password salah.
+     */
+    public function test_user_cannot_login_with_incorrect_password(): void
+    {
+        $user = User::factory()->create([
+            'password' => bcrypt('password123')
+        ]);
+
+        $response = $this->post('/login', [
+            'email' => $user->email,
+            'password' => 'password-salah',
+        ]);
+    
+        $this->assertGuest();
+      
+        $response->assertSessionHasErrors('email');
+    }
 }
