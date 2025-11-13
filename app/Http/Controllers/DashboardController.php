@@ -11,22 +11,20 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // 1. Ambil data untuk kartu statistik
-        $totalQuestions = Question::count();
-        $totalAnswers = Answer::count();
-        $totalUsers = User::count();
+        // 1. Ambil data untuk kartu "Statistik Saya"
+        $myTotalQuestions = Question::where('user_id', Auth::id())->count();
+        $myTotalAnswers = Answer::where('user_id', Auth::id())->count();
 
-        // 2. Ambil 5 pertanyaan terakhir dari user yang login
+        // 2. Ambil 5 pertanyaan terakhir dari user yang login (Ini tetap sama)
         $myQuestions = Question::where('user_id', Auth::id())
-            ->latest() // Urutkan dari yg terbaru
-            ->take(5)    // Ambil 5 saja
+            ->latest()
+            ->take(5)
             ->get();
 
-        // 3. Kirim semua data ke view
+        // 3. Kirim data baru ke view
         return view('dashboard', compact(
-            'totalQuestions',
-            'totalAnswers',
-            'totalUsers',
+            'myTotalQuestions',
+            'myTotalAnswers',
             'myQuestions'
         ));
     }

@@ -8,6 +8,9 @@
                     <a href="{{ route('dashboard') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
+                    <span class="font-semibold text-xl text-gray-800 ms-3">
+                        RuangDiskusi
+                    </span>
                 </div>
 
                 <!-- Navigation Links -->
