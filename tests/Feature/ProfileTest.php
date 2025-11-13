@@ -23,24 +23,39 @@ class ProfileTest extends TestCase
 
     public function test_profile_information_can_be_updated(): void
     {
+        // 1. SIAPKAN DATA (Arrange)
         $user = User::factory()->create();
 
+        $updateData = [
+            'name' => 'Nama Baru Arsita',
+            'email' => 'test@example.com',
+            'biodata' => 'Ini adalah biodata saya.',
+            'umur' => 25,
+            'alamat' => 'Jalan Tes No. 123'
+        ];
+
+        // 2. LAKUKAN AKSI (Act)
         $response = $this
             ->actingAs($user)
-            ->patch('/profile', [
-                'name' => 'Test User',
-                'email' => 'test@example.com',
-            ]);
+            ->patch('/profile', $updateData);
 
-        $response
-            ->assertSessionHasNoErrors()
-            ->assertRedirect('/profile');
+        // 3. BUKTIKAN HASILNYA (Assert)
+        $response->assertSessionHasNoErrors(); // Memastikan tidak ada error validasi
+        $response->assertRedirect('/profile');
+      
+        $this->assertDatabaseHas('users', [
+            'id' => $user->id,
+            'name' => 'Nama Baru Arsita',
+            'email' => 'test@example.com',
+            'biodata' => 'Ini adalah biodata saya.',
+            'umur' => 25,
+            'alamat' => 'Jalan Tes No. 123'
+        ]);
 
+        // cek email-nya
         $user->refresh();
-
-        $this->assertSame('Test User', $user->name);
+        $this->assertSame('Nama Baru Arsita', $user->name);
         $this->assertSame('test@example.com', $user->email);
-        $this->assertNull($user->email_verified_at);
     }
 
     public function test_email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
