@@ -13,10 +13,27 @@ class QuestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $questions = Question::with('user', 'category')->latest()->get();
-        return view('questions.index', compact('questions'));
+        // Ambil semua kategori untuk sidebar
+        $categories = Category::all();
+
+        // Mulai query builder untuk Question
+        $questionsQuery = Question::with('user', 'category');
+
+        // Cek apakah ada request filter 'category' di URL
+        if ($request->has('category')) {
+            // Jika ada, filter pertanyaannya
+            $questionsQuery->whereHas('category', function ($query) use ($request) {
+                $query->where('slug', $request->category);
+            });
+        }
+
+        // Ambil hasil akhirnya
+        $questions = $questionsQuery->latest()->get();
+
+        // Kirim data questions DAN categories ke view
+        return view('questions.index', compact('questions', 'categories'));
     }
 
     /**
@@ -120,7 +137,7 @@ class QuestionController extends Controller
             'body' => $validated['body'],
             'image' => $imagePath,
         ]);
-        
+
         if ($request->filled('tags')) {
             // 'syncTags' akan otomatis menambah/menghapus tag yg berubah
             $question->syncTags(explode(',', $request->tags));
