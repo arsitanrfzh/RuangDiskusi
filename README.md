@@ -10,7 +10,7 @@ Aplikasi ini di-deploy dan di-host secara *online* menggunakan **Railway**.
 ## 🚀 Link Aplikasi
 
 * **Link Deploy (Railway):** [https://ruangdiskusi-production.up.railway.app/]
-* **Link Video Demo:** `[belum-upload]`
+* **Link Video Demo:** `[https://drive.google.com/drive/folders/1tx9kyLXJGAAsMmRSunA7Pk6XpxFaiwP1?usp=sharing]`
 
 ---
 
@@ -18,7 +18,7 @@ Aplikasi ini di-deploy dan di-host secara *online* menggunakan **Railway**.
 
 Desain database aplikasi ini mencakup relasi *One-to-Many* (misal: `User` ke `Questions`) dan *Many-to-Many* (antara `Questions` dan `Tags` menggunakan tabel *polymorphic* `taggables`).
 
-![ERD RuangDiskusi](![Image](https://github.com/user-attachments/assets/0362b785-33bb-43cd-929a-4312e9f8a434))
+![ERD RuangDiskusi](https://drive.google.com/file/d/16koOr7Rjoc_tmwmazY2xxiN5ua_oUurC/view?usp=sharing)
 
 ---
 
