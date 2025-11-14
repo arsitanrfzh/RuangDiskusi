@@ -18,7 +18,7 @@ Aplikasi ini di-deploy dan di-host secara *online* menggunakan **Railway**.
 
 Desain database aplikasi ini mencakup relasi *One-to-Many* (misal: `User` ke `Questions`) dan *Many-to-Many* (antara `Questions` dan `Tags` menggunakan tabel *polymorphic* `taggables`).
 
-![ERD RuangDiskusi](https://drive.google.com/file/d/16koOr7Rjoc_tmwmazY2xxiN5ua_oUurC/view?usp=sharing)
+![(https://drive.google.com/file/d/16koOr7Rjoc_tmwmazY2xxiN5ua_oUurC/view?usp=sharing)]
 
 ---
 
