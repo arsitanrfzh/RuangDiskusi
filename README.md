@@ -1,59 +1,89 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Final Project: RuangDiskusi
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**RuangDiskusi** adalah aplikasi forum tanya jawab yang dibuat untuk Tugas final project MagangHub di PT Kreasi Hexa Indonesia. Aplikasi ini memungkinkan pengguna untuk mendaftar, membuat pertanyaan (lengkap dengan gambar dan *tags*), serta memberikan jawaban atas pertanyaan pengguna lain.
 
-## About Laravel
+Aplikasi ini dibangun menggunakan **Laravel 11**, **Tailwind CSS** (via Laravel Breeze), dan **MySQL**.
+Aplikasi ini di-deploy dan di-host secara *online* menggunakan **Railway**.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🚀 Link Aplikasi
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* **Link Deploy (Railway):** [https://ruangdiskusi-production.up.railway.app/]
+* **Link Video Demo:** `[belum-upload]`
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🏛️ Entity Relationship Diagram (ERD)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Desain database aplikasi ini mencakup relasi *One-to-Many* (misal: `User` ke `Questions`) dan *Many-to-Many* (antara `Questions` dan `Tags` menggunakan tabel *polymorphic* `taggables`).
 
-## Laravel Sponsors
+![ERD RuangDiskusi](![Image](https://github.com/user-attachments/assets/0362b785-33bb-43cd-929a-4312e9f8a434))
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 💻 Fitur Utama
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Aplikasi ini memenuhi semua *requirement* Pilihan 2, termasuk:
 
-## Contributing
+* **Autentikasi User** (Login & Register).
+* **Dashboard Kustom** dengan statistik personal (`Total Pertanyaan Saya`, `Total Jawaban Saya`) dan "Aksi Cepat".
+* **CRUD Kategori** (User dapat menambah, mengedit, dan menghapus kategori).
+* **CRUD Pertanyaan** (User dapat membuat pertanyaan dan hanya bisa mengedit/menghapus pertanyaan milik sendiri).
+* **CRUD Jawaban** (User dapat memberi jawaban dan hanya bisa mengedit/menghapus jawaban milik sendiri).
+* **Update Profil User** (User dapat mengubah nama, email, serta biodata, umur, dan alamat).
+* **Upload Gambar** untuk Pertanyaan.
+* **Filter Pertanyaan** berdasarkan Kategori di halaman Forum.
+* **Navigasi** yang jelas antara Dashboard dan Forum.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## 📚 3 Library/Package yang Digunakan
 
-## Code of Conduct
+1.  **SweetAlert2:** Digunakan untuk memberikan notifikasi *pop-up* yang modern saat akan menghapus data (Kategori, Pertanyaan, Jawaban).
+2.  **Datatables.net:** Diterapkan pada tabel "Kelola Kategori" untuk menyediakan fitur Pencarian, Sortir, dan Paginasi secara instan.
+3.  **spatie/laravel-tags:** Digunakan untuk mengimplementasikan fungsionalitas *tagging* (relasi Many-to-Many) pada setiap Pertanyaan.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## 🧪 Test-Driven Development (TDD)
 
-## Security Vulnerabilities
+Proyek ini juga mengimplementasikan tes fitur (Feature Tests) menggunakan PHPUnit untuk memastikan fungsionalitas inti berjalan sesuai harapan. Tes yang dibuat mencakup:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* **`AuthenticationTest`:** Memastikan user bisa *login* dengan kredensial yang benar dan gagal dengan kredensial yang salah.
+* **`ProfileTest`:** Memastikan update profil (termasuk *field* custom `biodata`, `umur`, `alamat`) berjalan sesuai siklus TDD (Red-Green-Refactor).
+* **`AnswerTest`:** Memastikan user bisa membuat jawaban dan tidak bisa menghapus jawaban milik user lain (tes otorisasi).
 
-## License
+## 🏃 Cara Menjalankan Proyek Secara Lokal
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+1.  Clone repository ini:
+    ```bash
+    git clone [https://github.com/arsitanrfzh/RuangDiskusi.git](https://github.com/arsitanrfzh/RuangDiskusi.git)
+    cd RuangDiskusi
+    ```
+2.  Salin file `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+3.  Install dependencies:
+    ```bash
+    composer install
+    npm install
+    ```
+4.  Jalankan `npm run build` (untuk aset frontend):
+    ```bash
+    npm run build
+    ```
+5.  Generate kunci aplikasi:
+    ```bash
+    php artisan key:generate
+    ```
+6.  Atur `.env` Anda (terutama `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`) agar sesuai dengan database MySQL lokal Anda.
+7.  Jalankan migrasi (membuat semua tabel):
+    ```bash
+    php artisan migrate
+    ```
+8.  Buat *link* storage (untuk upload gambar):
+    ```bash
+    php artisan storage:link
+    ```
+9.  Jalankan server:
+    ```bash
+    php artisan serve
+    ```

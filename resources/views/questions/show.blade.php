@@ -6,6 +6,23 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg relative">
                 <div class="p-6 text-gray-900">
+
+                    @if ($question->user_id == Auth::id())
+                    <div class="mb-4 flex items-center space-x-2">
+                        <a href="{{ route('questions.edit', $question->id) }}" class="inline-flex items-center px-4 py-2 bg-yellow-500 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-yellow-600">
+                            Edit Pertanyaan
+                        </a>
+
+                        <form class="inline-block form-delete" action="{{ route('questions.destroy', $question->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700">
+                                Hapus Pertanyaan
+                            </button>
+                        </form>
+                    </div>
+                    @endif
+                    
                     <div class="mb-6">
                         <div class="text-sm text-gray-600 mb-2">
                             Ditanyakan oleh: ... |
@@ -40,8 +57,14 @@
                             <div class="text-gray-800">
                                 {!! nl2br(e($answer->body)) !!}
                             </div>
+
                             @if ($answer->user_id == Auth::id())
-                            <div class="text-right mt-2">
+                            <div class="text-right mt-2 flex justify-end items-center space-x-2">
+
+                                <a href="{{ route('answers.edit', $answer->id) }}" class="text-xs text-blue-600 hover:text-blue-900">
+                                    Edit
+                                </a>
+
                                 <form class="inline-block form-delete" action="{{ route('answers.destroy', $answer->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')

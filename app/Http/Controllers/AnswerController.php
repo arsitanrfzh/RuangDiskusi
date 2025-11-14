@@ -24,6 +24,32 @@ class AnswerController extends Controller
         return redirect()->route('questions.show', $question->id)->with('success', 'Jawaban berhasil dikirim!');
     }
 
+    public function edit(Answer $answer)
+    {
+        // Otorisasi: Pastikan hanya pemilik yang bisa edit
+        if (Auth::id() !== $answer->user_id) {
+            abort(403, 'ANDA TIDAK PUNYA HAK AKSES');
+        }
+        return view('answers.edit', compact('answer'));
+    }
+
+    public function update(Request $request, Answer $answer)
+    {
+        // Otorisasi: Pastikan hanya pemilik yang bisa update
+        if (Auth::id() !== $answer->user_id) {
+            abort(403, 'ANDA TIDAK PUNYA HAK AKSES');
+        }
+
+        $validated = $request->validate([
+            'body' => 'required|string|min:5',
+        ]);
+
+        $answer->update($validated);
+
+        // Redirect kembali ke halaman pertanyaan
+        return redirect()->route('questions.show', $answer->question_id)->with('success', 'Jawaban berhasil diupdate!');
+    }
+
     public function destroy(Answer $answer)
     {
         // Otorisasi: Pastikan hanya pemilik yg bisa hapus
